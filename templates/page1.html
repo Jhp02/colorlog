@@ -1,54 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>감정 분석</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>이미지 감성 분석 설명</title>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="#">
+
+    <style>
+        /*가장 바깥 박스*/
+        * {
+        box-sizing: border-box;
+    }
+    body {
+        /* 폰트 변경 */
+        font-family: 'Gamja Flower', cursive;
+        font-size: 24px;
+        padding: 140px;
+        background: linear-gradient(-45deg, #f8d0d0, #fff9e5, #afdcff, #ecffd8);
+        animation: gradient 15s ease infinite;
+        background-size: 800% 800%;
+    }
+    @keyframes gradient {
+        0% {background-position: 0% 50%;}
+        50% {background-position: 100% 50%;}
+        100% {background-position: 0% 50%;}
+    }
+    /*안쪽 박스*/
+        .main {
+            padding: 30px;
+            background: white;
+            /*박스 모양 둥글게*/
+            border-radius: 20px;
+    }
+        .main h1{
+            text-align: center;
+    }
+        .main #text {
+            margin-left: 4%
+    }
+        #button input{
+            border: 5px solid #ddf4fd;
+            background-color: white;
+            color: #858585;
+            margin-left: 45%;
+            padding: 10px;
+            border-radius: 20px;
+            transition: background 0.5s ease-in-out;
+    }   
+        #button input:hover {
+            border: 5px solid #ddf4fd;
+            background-color: #ddf4fd;
+            color: #858585;
+
+        }
+        .ul {
+        list-style: none;
+    }
+    /*가로정렬*/
+    .li {
+        float: left;
+        /*margin-left: 30px;*/
+        /*변경*/
+        margin-left: 40px;
+        vertical-align: center;
+    }
+    a:link{
+        font-family: 'Gamja Flower', serif;
+        font-size: 15px;
+        color: grey;
+        text-decoration: none;
+    }
+    </style>
 </head>
 <body>
-  <div id="app"></div>
-  <script src="https://unpkg.com/vue@3"></script>
-  <script>
-    const { createApp, ref } = Vue;
+    <div class = "main box">
+        <div id = "text">
+            <h1>이미지의 색을 통해 당신의 감정을 알아보아요.</h1>
+            <br/>
+            <hr/>
+            <br/>
 
-    createApp({
-      setup() {
-        const img1 = ref(null);
-        const img2 = ref(null);
-        const img3 = ref(null);
+            <h2>이 사이트는...</h2>
+            <p>사용자가 입력한 이미지의 색깔을 분석하여 사용자의 감정을 알려주는 사이트 입니다.</p>
+            <p>이 사이트에서는 이미지를 총 12가지의 색깔로 분류합니다.</p>
+            <p>분류된 색깔로부터 총 17가지의 감정을 알려줍니다.</p>
+            <br/>
 
-        const onSubmit = () => {
-          const formData = new FormData();
-          formData.append('img1', img1.value.files[0]);
-          formData.append('img2', img2.value.files[0]);
-          formData.append('img3', img3.value.files[0]);
-
-          fetch('/', {
-            method: 'POST',
-            body: formData,
-          }).then((res) => {
-            if (res.redirected) {
-              window.location.href = res.url;
-            }
-          });
-        };
-
-        return { img1, img2, img3, onSubmit };
-      },
-      template: `
-        <div class="container">
-          <h1>감정 추정 시스템</h1>
-          <p>이미지 3장을 업로드하면 주된 감정을 분석해드립니다.</p>
-          <form @submit.prevent="onSubmit">
-            <input type="file" ref="img1" required />
-            <input type="file" ref="img2" required />
-            <input type="file" ref="img3" required />
-            <button type="submit">분석하기</button>
-          </form>
+            <h2>이용 방법</h2>
+            <ul class="ul">
+                <li class="li"><img src="https://cdn-icons-png.flaticon.com/512/5199/5199939.png" width="100" height="100"></li>
+                <li class="li"><img src="https://cdn-icons-png.flaticon.com/512/4723/4723461.png" width="70" height="70"></li>
+                <li class="li"><img src="https://cdn-icons-png.flaticon.com/512/2914/2914140.png" width="100" height="100"></li>
+                <li class="li"><img src="https://cdn-icons-png.flaticon.com/512/4723/4723461.png" width="70" height="70"></li>
+                <li class="li"><img src="https://cdn-icons-png.flaticon.com/512/5278/5278682.png" width="100" height="100"></li>
+                <li class="li"><img src="https://cdn-icons-png.flaticon.com/512/4723/4723461.png" width="70" height="70"></li>
+                <li class="li"><img src="https://cdn-icons-png.flaticon.com/512/2601/2601655.png" width="100" height="100"></li>
+            </ul>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <p>1. 시작하기 버튼을 누릅니다.</p>
+            <p>2. 자신의 감정을 표현한다고 생각되는 이미지 3장을 골라서 입력합니다. 이 때, 오래 고민하지 말고 끌리는 사진을 고르세요.</p>
+            <p>3. 제출 버튼을 누릅니다.</p>
+            <p>4. 결과가 나올 때까지 시간이 소요 됩니다. 잠시 기다려 주세요.</p>
+            <p>5. 사용자의 감정을 그래프와 함께 보여줍니다.</p>
+            <br/>
+            <br/>
+            <br/>
         </div>
-      `
-    }).mount('#app');
-  </script>
+        <div id = button>
+            <input type = "button" value = "시작하기" onclick = "location.href = 'page2'"/>
+        </div>
+        <div id = reference>
+            <br/>
+            <br/>
+            <a href="https://www.flaticon.com/free-icons/start" title="start icons">Start icons created by Freepik - Flaticon</a><b>&emsp;</b>
+            <a href="https://www.flaticon.com/free-icons/photo" title="photo icons">Photo icons created by FauzIDEA - Flaticon</a>
+            <br/>
+            <a href="https://www.flaticon.com/free-icons/submit" title="submit icons">Submit icons created by Freepik - Flaticon</a><b>&emsp;</b>
+            <a href="https://www.flaticon.com/free-icons/direction" title="direction icons">Direction icons created by Andy Horvath - Flaticon</a><b>&emsp;</b>
+            <a href="https://www.flaticon.com/free-icons/result" title="result icons">Result icons created by Freepik - Flaticon</a>    
+        </div>
+        <br/>
+        <br/>
+    </div>
 </body>
 </html>

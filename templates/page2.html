@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>이미지 감성 분석 시작</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-------- 폰트 추가------------->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script> <!--jquery-->
+    <!------------------------->
+
+    <style>
+        /*가장 바깥 박스*/
+        * {
+        box-sizing: border-box;
+    }
+    body {
+        /* 폰트 변경 */
+        font-family: 'Gamja Flower', cursive;
+        font-size: 20px;
+        /*font-family: sans-serif;*/
+        padding: 140px;
+        background: linear-gradient(45deg, #f8d0d0, #fff9e5, #afdcff, #ecffd8);
+    }
+    /*안쪽 박스*/
+        .header {
+            padding: 30px;
+            text-align: center;
+            background: white;
+            /*박스 모양 둥글게*/
+            border-radius: 20px;
+    }
+
+        .header h1 {
+            font-size: 50px;
+            text-align: center;
+    }
+    /*파일 업로드 버튼 디자인*/
+   .filebox label {
+        display: inline-block;
+        padding: 10px 20px;
+        color: #fff;
+        vertical-align: middle;
+        background-color: rgb(103, 162, 251);
+        cursor: pointer;
+        height: 45px;
+        margin-left: 10px;
+
+        /*추가*/
+        margin-top: 20px;
+        /*버튼 모양 둥글게*/
+        border-radius: 20px;
+    }
+    /*기존 업로드 버튼 없애기*/
+    .filebox input[type="file"] {
+        position: absolute;
+        width: 0;
+        height: 0;
+        padding: 0;
+        overflow: hidden;
+        border: 0;
+    }
+    .button button {
+        border: 5px solid #ddf4fd;
+        background-color: white;
+        color: #858585;
+        /*padding: 5px;*/
+        /*추가*/
+        padding: 10px;
+        padding-right: 20px;
+        padding-left: 20px;
+        margin-top: 20px;
+        left: 750px;
+        border-radius: 20px;
+        transition: background 0.5s ease-in-out;
+    }
+    .button button:hover {
+        border: 5px solid #ddf4fd;
+        background-color: #ddf4fd;
+        color: #858585;
+    }
+    .ul {
+        list-style: none;
+    }
+    /*가로정렬*/
+    .li {
+        float: left;
+        /*margin-left: 30px;*/
+        /*변경*/
+        margin-left: 40px;
+        vertical-align: center;
+    }
+    .filebox input[type="text"] {
+        display: inline-block;
+        height: 40px;
+        padding: 0 10px;
+        vertical-align: middle;
+        border: 1px solid rgb(103, 162, 251);
+        width: 78%;
+        color: #a7aaac;
+    }
+    /*원형 로딩*/
+    .loader .circle {
+        border: 16px solid #9f9f9f;
+        border-top: 16px solid #2c93e2;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+        position: fixed;
+        top: 50%;
+        left: 45%;
+        transform: translate(-50%, -50%);
+    }
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+    /*로딩 배경페이지*/
+    .loader .layer {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width:100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.7);
+    }
+    
+    </style>
+    <!--로딩화면 구현-->
+    <script>
+        $(document).ready(function() {
+
+        $('.loader').hide();
+        $('#btn').click(function() {
+            $('.loader').show();
+            return true;
+            });
+        });
+        
+    </script>
+    
+</head>
+
+<body>
+<div class="loader">
+    <div class="layer"></div>
+    <div class="circle"></div>
+</div> <!--로딩-->
+    <div class="header filebox button">
+        <h1>이미지 감성 분석 </h1>
+        <p>당신의 감정을 표현한다고 생각하는 이미지 3장을 선택하여 아래에 입력하세요</p>
+        <p>오래 고민하지 말고 고르세요</p>
+        <hr/>
+
+        <form name = "form" id = "form" method = "POST" enctype = "multipart/form-data" action = "/result/" onsubmit="onSubmit();">
+            <ul class="ul">
+            <li class="li"> <h3 style="color:#5f5e5e">이미지1</h3>
+            <input type="text" id="fileName1" name="fileName">
+            <label>파일찾기<input type = "file" id="upfile" onchange="javascript:document.getElementById('fileName1').value=this.value" accept = "image/*" name = "img1"/></label> </li>
+            <li class="li"><h3 style="color:#5f5e5e">이미지2</h3>
+            <input type="text" id="fileName2" name="fileName">
+            <label>파일찾기<input type = "file" id="filename" onchange="javascript:document.getElementById('fileName2').value=this.value" accept = "image/*" name = "img2"/></label> </li>
+            <li class="li"><h3 style="color:#5f5e5e">이미지3</h3>
+            <input type="text" id="fileName3" name="fileName">
+            <label>파일찾기<input type = "file" id="filename" onchange="javascript:document.getElementById('fileName3').value=this.value" accept = "image/*" name = "img3"/></label> </li>
+            </ul>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <hr/>
+            <br/>
+            <button id="btn" form = "form">제출</button>
+            <br/>
+            <br/>
+        </form>
+        
+</body>   
+
+</html>
