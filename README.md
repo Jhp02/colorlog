@@ -35,19 +35,17 @@ cd your-repo-name
 
 2. 가상환경 생성 및 설치
 
-```bash
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
 3. 서버 실행
 
-```bash
 python server.py
 
 4. 웹 브라우저에서 http://127.0.0.1:5000 접속
 
-## 📁 디렉토리 구조
+📁 디렉토리 구조
 
 emotion-project/
 ├── server.py                 # Flask 서버 및 감정 분석 로직
@@ -60,7 +58,7 @@ emotion-project/
 ├── requirements.txt          # 필요한 파이썬 패키지
 └── README.md                 # 프로젝트 설명서
 
-## 🙋‍♀️ 제작자
+🙋‍♀️ 제작자
 작성자: 안진영, 박지혜
 
 ---
