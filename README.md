@@ -35,12 +35,14 @@ cd your-repo-name
 
 2. 가상환경 생성 및 설치
 
+```bash
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
 3. 서버 실행
 
+```bash
 python server.py
 
 4. 웹 브라우저에서 http://127.0.0.1:5000 접속
