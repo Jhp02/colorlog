@@ -53,6 +53,8 @@ emotion-project/
 ├── templates/
 │   ├── page1.html            # 이미지 업로드 페이지
 │   └── result.html           # 결과 페이지
+├── static/
+│   ├── style.css
 ├── image/
 │   └── .gitkeep              # 이미지 저장용 (빈 폴더 유지용)
 ├── requirements.txt          # 필요한 파이썬 패키지
