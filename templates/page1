@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>감정 분석</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div id="app"></div>
+  <script src="https://unpkg.com/vue@3"></script>
+  <script>
+    const { createApp, ref } = Vue;
+
+    createApp({
+      setup() {
+        const img1 = ref(null);
+        const img2 = ref(null);
+        const img3 = ref(null);
+
+        const onSubmit = () => {
+          const formData = new FormData();
+          formData.append('img1', img1.value.files[0]);
+          formData.append('img2', img2.value.files[0]);
+          formData.append('img3', img3.value.files[0]);
+
+          fetch('/', {
+            method: 'POST',
+            body: formData,
+          }).then((res) => {
+            if (res.redirected) {
+              window.location.href = res.url;
+            }
+          });
+        };
+
+        return { img1, img2, img3, onSubmit };
+      },
+      template: `
+        <div class="container">
+          <h1>감정 추정 시스템</h1>
+          <p>이미지 3장을 업로드하면 주된 감정을 분석해드립니다.</p>
+          <form @submit.prevent="onSubmit">
+            <input type="file" ref="img1" required />
+            <input type="file" ref="img2" required />
+            <input type="file" ref="img3" required />
+            <button type="submit">분석하기</button>
+          </form>
+        </div>
+      `
+    }).mount('#app');
+  </script>
+</body>
+</html>
